@@ -35,19 +35,25 @@ var BlogView = Backbone.View.extend({
         var url = this.$('.url').html();
 
         //author edit input
-        this.$('.author').html('<input type="text" class="form-control authorInput" value="' + author + '"></input>');
+        this.$('.author').html('<input type="text" class="form-control authorUpdate" value="' + author + '"></input>');
 
         //title edit input
-        this.$('.title').html('<input type="text" class="form-control titleInput" value="' + title + '"></input>');
+        this.$('.title').html('<input type="text" class="form-control titleUpdate" value="' + title + '"></input>');
 
         //url edit input
-        this.$('.url').html('<input type="text" class="form-control urlInput" value="' + url + '"></input>');
+        this.$('.url').html('<input type="text" class="form-control urlUpdate" value="' + url + '"></input>');
     },
     update: function(){
         //set values from the edited input boxes to be the new values
-        this.model.set('author', $('.authorInput').val());
-        this.model.set('title', $('.titleInput').val());
-        this.model.set('url', $('.urlInput').val());
+        this.model.set('author', $('.authorUpdate').val());
+        this.model.set('title', $('.titleUpdate').val());
+        this.model.set('url', $('.urlUpdate').val());
+    },
+    cancel: function() {
+        blogViews.render();
+    },
+    delete: function() {
+        this.model.destroy();
     },
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
@@ -62,11 +68,12 @@ var BlogViews = Backbone.View.extend({
     initialize: function() {
         var self = this;
         this.model.on('add', this.render, this);
-        this.model.on('change', function(){
-            setTimeout(function(){
+        this.model.on('change', function() {
+            setTimeout(function() {
                 self.render();
-            }, 50);
+            }, 30);
         }, this);
+        this.model.on('remove', this.render, this);
     },
     render: function() {
         var self =  this;

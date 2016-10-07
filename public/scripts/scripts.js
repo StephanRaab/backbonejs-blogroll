@@ -1,3 +1,5 @@
+Backbone.Model.prototype.idAttribute = '_id';
+
 // Backbone Model
 var Blog = Backbone.Model.extend({
     defaults: {
@@ -8,7 +10,9 @@ var Blog = Backbone.Model.extend({
 });
 
 //Backbone collection (array of models)
-var Blogs = Backbone.Collection.extend({});
+var Blogs = Backbone.Collection.extend({
+    url: 'http://localhost:3000/api/blogs'
+});
 
 //instantiate a collection
 var blogs = new Blogs();
@@ -38,10 +42,8 @@ var BlogView = Backbone.View.extend({
 
         //author edit input
         this.$('.author').html('<input type="text" class="form-control authorUpdate" value="' + author + '"></input>');
-
         //title edit input
         this.$('.title').html('<input type="text" class="form-control titleUpdate" value="' + title + '"></input>');
-
         //url edit input
         this.$('.url').html('<input type="text" class="form-control urlUpdate" value="' + url + '"></input>');
     },
@@ -50,12 +52,28 @@ var BlogView = Backbone.View.extend({
         this.model.set('author', $('.authorUpdate').val());
         this.model.set('title', $('.titleUpdate').val());
         this.model.set('url', $('.urlUpdate').val());
+
+        this.model.save(null, {
+			success: function(response) {
+				console.log('Successfully UPDATED blog with _id: ' + response.toJSON()._id);
+			},
+			error: function(err) {
+				console.log('Failed to update blog!');
+			}
+		});
     },
     cancel: function() {
         blogViews.render();
     },
     delete: function() {
-        this.model.destroy();
+        this.model.destroy({
+            success: function(response) {
+				console.log('Successfully DELETED blog with _id: ' + response.toJSON()._id);
+			},
+			error: function(err) {
+				console.log('Failed to delete blog!');
+			}
+        });
     },
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
@@ -76,9 +94,21 @@ var BlogViews = Backbone.View.extend({
             }, 30);
         }, this);
         this.model.on('remove', this.render, this);
+
+        //GET request for blogs
+        this.model.fetch({
+            success: function(response) {
+                _.each(response.toJSON(), function(item) {
+                    console.log('Successfully GOT blog with _id: ' + item._id);
+                })
+            },
+            error: function() {
+                console.log("Failed to get blogs!");
+            }
+        });
     },
     render: function() {
-        var self =  this;
+        var self = this;
         this.$el.html('');
         _.each(this.model.toArray(), function(blog) {
             self.$el.append((new BlogView({model: blog})).render().$el);
@@ -102,5 +132,13 @@ $(document).ready(function(){
         $('.urlInput').val('');
         
         blogs.add(blog);
+        blog.save(null, {
+			success: function(response) {
+				console.log('Successfully SAVED blog with _id: ' + response.toJSON()._id);
+			},
+			error: function() {
+				console.log('Failed to save blog!');
+			}
+		});
     });
 });

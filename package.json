@@ -18,6 +18,7 @@
   "homepage": "https://github.com/StephanRaab/backbonejs-blogroll#readme",
   "dependencies": {
     "express": "^4.14.0",
-    "mongoose": "^4.6.3"
+    "mongoose": "^4.6.3",
+    "underscore": "^1.8.3"
   }
 }

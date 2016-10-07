@@ -1,0 +1,23 @@
+{
+  "name": "backbonejs-blogroll",
+  "version": "1.0.0",
+  "description": "BackboneJs Blogroll tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StephanRaab/backbonejs-blogroll.git"
+  },
+  "author": "Stephan Raab",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StephanRaab/backbonejs-blogroll/issues"
+  },
+  "homepage": "https://github.com/StephanRaab/backbonejs-blogroll#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongoose": "^4.6.3"
+  }
+}

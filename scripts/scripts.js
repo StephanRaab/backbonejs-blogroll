@@ -22,13 +22,15 @@ var BlogView = Backbone.View.extend({
     },
     events: {
         'click .editBlog': 'edit',
-        'click .updateBlog': 'update'
+        'click .updateBlog': 'update',
+        'click .cancelUpdate': 'cancel',
+        'click .deleteBlog': 'delete'
     },
     edit: function() {
         $(".editBlog").toggleClass('hidden');
         $(".deleteBlog").toggleClass('hidden');
-        $(".updateBlog").toggleClass('hidden');
-        $(".cancelUpdate").toggleClass('hidden');
+        this.$(".updateBlog").toggleClass('hidden');
+        this.$(".cancelUpdate").toggleClass('hidden');
 
         var author = this.$('.author').html();
         var title = this.$('.title').html();
